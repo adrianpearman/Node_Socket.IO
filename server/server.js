@@ -22,11 +22,28 @@ io.on('connection', (socket) => {
   //   text: 'hey!',
   //   timeStamp: 1287
   // })
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to Text App',
+    createdAt: new Date().getTime()
+  })
+
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New User added',
+    createdAt: new Date().getTime()
+  })
 
   socket.on('createMessage', (message) => {
     console.log(message);
     //this will emit it to the browser anot the console
-    io.emit('newMessage', {
+    // io.emit('newMessage', {
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // })
+
+    socket.broadcast.emit('newMessage', {
       from: message.from,
       text: message.text,
       createdAt: new Date().getTime()
