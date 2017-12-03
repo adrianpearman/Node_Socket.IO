@@ -10,20 +10,27 @@ socket.on('disconnect', function(){
 })
 
 socket.on('newMessage', function(message){
-  console.log('New Message', message);
-  let li = $('<li></li>')
-  li.text(`${message.from}: ${message.text}`)
+  // mustache.js used to refactor the socket submissions
+  let time = moment(message.createdAt).format('h:mm a')
+  let template = $('#message-template').html()
+  let html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt: time
+  })
 
-  $('#messages-list').append(li)
+  $('#messages-list').append(html)
 })
 
 socket.on('newLocationMessage', function(message){
-  let li = $('<li></li>')
-  let a = $('<a target="_blank">My Current Location</a>')
+  let time = moment(message.createdAt).format('h:mm a')
+  let template = $('#location-message-template').html()
+  let li = Mustache.render(template, {
+    url: message.url,
+    createdAt: time,
+    from: message.from
+  })
 
-  li.text(`${message.from}: `)
-  a.attr('href', message.url)
-  li.append(a)
   $('#messages-list').append(li)
 })
 
