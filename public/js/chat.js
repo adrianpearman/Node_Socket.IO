@@ -23,7 +23,7 @@ socket.on('connect', function(){
       alert(error) // modals can also be used as well
       window.location.href = '/'
     } else {
-      console.log('no errors!');
+      // console.log('no errors!');
     }
   })
 })
@@ -75,7 +75,6 @@ $('#messages-form').on('submit', function(e){
   e.preventDefault()
 
   socket.emit('createMessage', {
-    from: 'User',
     text: $('#message').val()
   }, function(){
     // clearing the chat location
@@ -93,7 +92,7 @@ localButton.on('click', function(e){
   localButton.attr('disabled', 'disabled').text('Sending location...')
 
   navigator.geolocation.getCurrentPosition(function(location){
-    console.log(location);
+    // console.log(location);
     localButton.removeAttr('disabled').text('Send Location')
     socket.emit('createLocationMessage',{
       latitude: location.coords.latitude,
